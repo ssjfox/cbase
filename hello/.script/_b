@@ -1,0 +1,191 @@
+#!/bin/bash
+# Copyright 2020. (주)웨어그램 all rights reserved.
+# 빌드 스크립트.
+
+RELATIVE_DIR=$(dirname "$0")
+cd "$RELATIVE_DIR"
+source ./_build_env
+cd ..
+
+export B_CLEAN=""
+export B_BUILD=""
+export B_RUN=""
+export B_LIBRARY_TEST="not library test"
+export VS=""
+export BUILD_TYPE="release"
+
+if [ "$1" = "clean" ] || [ "$2" = "clean" ] || [ "$3" = "clean" ] || [ "$4" = "clean" ] || [ "$5" = "clean" ]; then
+	export B_CLEAN="clean"
+fi
+if [ "$1" = "build" ] || [ "$2" = "build" ] || [ "$3" = "build" ] || [ "$4" = "build" ] || [ "$5" = "build" ]; then
+	export B_BUILD="build"
+fi
+if [ "$1" = "test" ] || [ "$2" = "test" ] || [ "$3" = "test" ] || [ "$4" = "test" ] || [ "$5" = "test" ]; then
+	export B_LIBRARY_TEST="library test"
+fi
+if [ "$1" = "run" ] || [ "$2" = "run" ] || [ "$3" = "run" ] || [ "$4" = "run" ] || [ "$5" = "run" ]; then
+	export B_RUN="run"
+fi
+if [ "$1" = "debug" ] || [ "$2" = "debug" ] || [ "$3" = "debug" ] || [ "$4" = "debug" ] || [ "$5" = "debug" ]; then
+	export BUILD_TYPE="debug"
+fi
+
+# build configuration
+	if [ "$OSTYPE" = "linux-gnu" ]; then   # GCC - Linux
+		export GENERATOR="Unix Makefiles"
+		export COMPILER="gcc"
+		export SYSTEM_NAME="Linux"
+        export BSYSTEM="Linux"
+	elif [ "$VCToolsVersion" != "" ]; then # MSVC
+		export GENERATOR="NMake Makefiles"
+		export COMPILER="msvc"
+		export SYSTEM_NAME="Windows"
+        export BSYSTEM="Windows"
+	elif [ "$MSYSTEM" = "MSYS" ]; then     # GCC - msys2 MSYS
+		export GENERATOR="MSYS Makefiles"
+		export COMPILER="gcc"
+		export SYSTEM_NAME="$MSYSTEM"
+        export BSYSTEM="Windows"
+	elif [ "$MSYSTEM" = "MINGW64" ]; then  # GCC - msys2 MinGW64
+		export GENERATOR="MinGW Makefiles"
+		export COMPILER="gcc"
+		export SYSTEM_NAME="$MSYSTEM"
+        export BSYSTEM="Windows"
+	elif [ "$MSYSTEM" = "MINGW32" ]; then  # GCC - msys2 MinGW32
+		export GENERATOR="MinGW Makefiles"
+		export COMPILER="gcc"
+		export SYSTEM_NAME="$MSYSTEM"
+        export BSYSTEM="Windows"
+	else                                   # GCC - Cygwin
+		export GENERATOR="Unix Makefiles"
+		export COMPILER="gcc"
+		export SYSTEM_NAME="$MSYSTEM"
+        export BSYSTEM="Windows"
+	fi
+
+    export HOSTTYPE="${HOSTTYPE}"
+
+	if [ -e "./config/Common/option" ]; then
+		source ./config/Common/option $@
+	fi
+	if [ -e "./config/Common_${BUILD_TYPE}/option" ]; then
+		source ./config/Common_${BUILD_TYPE}/option $@
+	fi
+	if [ -e "./config/${SYSTEM_NAME}_common/option" ]; then
+		source ./config/${SYSTEM_NAME}_common/option $@
+	fi
+	if [ -e "./config/${SYSTEM_NAME}_${HOSTTYPE}/option" ]; then
+		source ./config/${SYSTEM_NAME}_${HOSTTYPE}/option $@
+	fi
+	if [ -e "./config/${SYSTEM_NAME}_${HOSTTYPE}_${BUILD_TYPE}/option" ]; then
+		source ./config/${SYSTEM_NAME}_${HOSTTYPE}_${BUILD_TYPE}/option $@
+	fi
+
+
+	if [ "${B_TYPE}" = "excutable binary" ]; then
+		if [ "${BSYSTEM}" = "Windows" ]; then
+			export OUTPUT_BINARY="${OUTPUT}.exe"
+		else
+			export OUTPUT_BINARY="${OUTPUT}"
+		fi
+	elif [ "${B_LIBRARY_TEST}" = "library test" ]; then
+		if [ "${BSYSTEM}" = "Windows" ]; then
+			export OUTPUT_BINARY="test_$OUTPUT.exe"
+		else
+			export OUTPUT_BINARY="test_${OUTPUT}"
+		fi
+	elif [ "${B_TYPE}" = "shared library" ]; then
+		if [ "${BSYSTEM}" = "Windows" ]; then
+			export OUTPUT_BINARY="${OUTPUT}.dll"
+		else
+			export OUTPUT_BINARY="lib${OUTPUT}.so"
+		fi
+	elif [ "${B_TYPE}" = "static library" ]; then
+		if [ "${BSYSTEM}" = "Windows" ]; then
+			export OUTPUT_BINARY="${OUTPUT}.lib"
+		else
+			export OUTPUT_BINARY="lib${OUTPUT}.a"
+		fi
+	fi
+
+    export ENV_DIR="${SYSTEM_NAME}_${HOSTTYPE}_${BUILD_TYPE}"
+
+	if [ "$1" = "" ]; then
+		echo "Usage: _b [clean] [build] [test] [run]"
+		echo "    [clean] delete directory ./.build "
+		echo "    [build] build cmake to ./.build "
+		echo "    [test] excute library test binary"
+		echo "    [run] run built result ./bin/${ENV_DIR}/${OUTPUT_BINARY}"
+		echo ""
+	fi
+
+
+	# 닌자를 가장 높은 우선순위의 빌드도구로 사용한다.
+	if [ "${NINJA}" = 1 ]; then   # NINJA
+		export GENERATOR="Ninja"
+	fi
+
+
+# build script running in ./.build
+	if [ "$B_CLEAN" = "clean" ]; then
+		if [ -e ".build/$ENV_DIR" ]; then
+			rm -r ".build/$ENV_DIR"
+			echo ".build/$ENV_DIR 디렉토리를 삭제하였습니다."
+		fi
+	fi
+	if [ "$B_BUILD" = "build" ]; then
+
+		if [ -e "./config/Common/prework" ]; then
+			source ./config/Common/prework $@
+		fi
+		if [ -e "./config/Common_${BUILD_TYPE}/prework" ]; then
+			source ./config/Common_${BUILD_TYPE}/prework $@
+		fi
+		if [ -e "./config/${SYSTEM_NAME}_common/prework" ]; then
+			source ./config/${SYSTEM_NAME}_common/prework $@
+		fi
+        if [ -e "./config/${SYSTEM_NAME}_${HOSTTYPE}/prework" ]; then
+			source ./config/${SYSTEM_NAME}_${HOSTTYPE}/prework $@
+		fi
+        if [ -e "./config/${SYSTEM_NAME}_${HOSTTYPE}_${BUILD_TYPE}/prework" ]; then
+			source ./config/${SYSTEM_NAME}_${HOSTTYPE}_${BUILD_TYPE}/prework $@
+		fi
+
+		echo "build를 수행합니다."
+
+		if ! [ -e ".build/$ENV_DIR" ]; then
+			mkdir -p .build/$ENV_DIR
+		fi
+
+		cd .build/$ENV_DIR
+		cmake ../../.script/. -G "${GENERATOR}"
+		# replace.cpp rules.ninja "-/showIncludes" "-"
+		if [ "$VS" = "" ]; then
+			cmake --build .
+		fi
+		cd ../..
+
+		if [ -e "./config/Common/postwork" ]; then
+			source ./config/Common/postwork $@
+		fi
+		if [ -e "./config/Common_${BUILD_TYPE}/postwork" ]; then
+			source ./config/Common_${BUILD_TYPE}/postwork $@
+		fi
+		if [ -e "./config/${SYSTEM_NAME}_common/postwork" ]; then
+			source ./config/${SYSTEM_NAME}_common/postwork $@
+		fi
+        if [ -e "./config/${SYSTEM_NAME}_${HOSTTYPE}/postwork" ]; then
+			source ./config/${SYSTEM_NAME}_${HOSTTYPE}/postwork $@
+		fi
+        if [ -e "./config/${SYSTEM_NAME}_${HOSTTYPE}_${BUILD_TYPE}/postwork" ]; then
+			source ./config/${SYSTEM_NAME}_${HOSTTYPE}_${BUILD_TYPE}/postwork $@
+		fi
+	fi
+
+	if [ "$B_RUN" = "run" ]; then
+		if [ "${B_TYPE}" = "excutable binary" ] || [ "${B_LIBRARY_TEST}" = "library test" ]; then
+			echo "build 결과를 실행합니다."
+			echo "$ ./bin/${ENV_DIR}/${OUTPUT_BINARY} ${PARAMETER[@]}"
+			./bin/${ENV_DIR}/${OUTPUT_BINARY} ${PARAMETER[@]}
+		fi
+	fi

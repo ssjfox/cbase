@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# /OUT:"C:\Program Files\Python38\x64\Release\Project1.exe"
+# /PDB:"C:\Program Files\Python38\x64\Release\Project1.pdb"
+# /PGD:"C:\Program Files\Python38\x64\Release\Project1.pgd"
+# /PGD:"C:\Program Files\Python38\x64\Release\Dll1.pgd"
+# /IMPLIB:"C:\Program Files\Python38\x64\Release\Dll1.lib"
+# /LTCGOUT:"x64\Release\Project1.iobj"
+# /LTCGOUT:"./bin/Windows_x86_64_release\Nerv35.iobj"
+# /LTCG:incremental
+
+/LTCG
+/NXCOMPAT
+# /DYNAMICBASE "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib"
+
+/DEBUG
+
+/MACHINE:X64
+/OPT:REF
+/INCREMENTAL:NO
+/SUBSYSTEM:CONSOLE
+
+# /MANIFEST
+# /MANIFESTUAC:"level='asInvoker' uiAccess='false'"
+# /MANIFESTUAC:NO
+# /ManifestFile:"bin\Windows_x86_64_release\Project1.exe.intermediate.manifest"
+# /ManifestFile:"x64\Release\Dll1.dll.intermediate.manifest"
+
+
+/OPT:ICF
+/ERRORREPORT:PROMPT
+/NOLOGO
+/TLBID:1
+

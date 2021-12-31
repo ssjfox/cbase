@@ -1,0 +1,16 @@
+#!/bin/bash
+# Copyright 2021. Waregram Corp. all rights reserved.
+
+export OUTPUT="${PWD##*/}"
+# export OUTPUT="hello"
+
+# export B_TYPE="shared library"
+# export B_TYPE="static library"
+export B_TYPE="excutable binary"
+# export B_LIBRARY_TEST="library test"
+
+export NINJA=0
+declare -a PARAMETER
+# PARAMETER[0]="bbb"
+# PARAMETER[1]="aaa"
+# PARAMETER[2]="is"

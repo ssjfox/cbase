@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export GCC='/usr/bin/aarch64-linux-gnu-gcc'
+export GXX='/usr/bin/aarch64-linux-gnu-g++'
+export HOSTTYPE='aarch64'
+
+# export GCC='gcc'
+# export GXX='g++'
+# export HOSTTYPE='x86_64'

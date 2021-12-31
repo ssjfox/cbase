@@ -1,0 +1,37 @@
+#!/bin/bash
+
+
+
+# only one error
+/WL
+
+# runtime type information
+/GR
+
+
+/WX-
+
+# runtime library multi thread
+/MT
+
+/permissive-
+/GS
+/GL
+/W3
+/Gy
+/Zc:wchar_t
+/Zi
+/Gm-
+/O2
+/sdl
+/Zc:inline
+/fp:precise
+/errorReport:prompt
+/Zc:forScope
+/Gd
+/Oi
+/FC
+/EHsc
+/nologo
+/diagnostics:column
+

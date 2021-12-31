@@ -1,0 +1,72 @@
+{
+    "configurations": [
+        {
+            "name": "GCC MinGW64",
+            "includePath": [
+				"E:\\Devtools\\msys64\\mingw64\\include",
+				"E:\\Devtools\\msys64\\mingw64\\x86_64-w64-mingw32\\include",
+				"E:\\Devtools\\msys64\\mingw64\\include\\c++\\9.3.0",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.18362.0",
+			"compilerPath": "E:\\Devtools\\msys64\\mingw64\\bin\\gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+		},
+		{
+            "name": "GCC Linux64",
+            "includePath": [
+                "/opt/ros/melodic/include",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [ "USE_TRACE=4" ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "gcc-x64",
+            "configurationProvider": "go2sh.cmake-integration"
+		},
+		{
+            "name": "GCC msys2",
+            "includePath": [
+				"E:\\Devtools\\msys64\\usr\\include",
+				"E:\\Devtools\\msys64\\usr\\lib\\gcc\\x86_64-pc-msys\\9.3.0\\include\\c++",
+				"${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.18362.0",
+            "compilerPath": "E:\\Devtools\\msys64\\usr\\bin\\gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+		},
+		{
+            "name": "MSC Win64",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+				"NERV_SDK_5_EXPORTS",
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.18362.0",
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "msvc-x64"
+        }
+    ],
+    "version": 4
+}

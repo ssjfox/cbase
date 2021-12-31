@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+
+export MSVC_TOOLSET_VERSION=142
+export GENERATOR="Visual Studio 16 2019"

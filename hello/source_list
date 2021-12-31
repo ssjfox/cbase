@@ -1,0 +1,7 @@
+#!/bin/bash -n
+# Copyright 2021. Waregram Corp. all rights reserved.
+# Source List
+# attention : "@filename.cpp" is not compiled.
+
+./src/*.c*
+../src/*.c*

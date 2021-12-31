@@ -1,0 +1,6 @@
+#!/bin/bash -n
+# Copyright 2021. Waregram Corp. all rights reserved.
+# Common Macros
+
+USE_TRACE=0
+USE_ASSERT=0

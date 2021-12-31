@@ -1,0 +1,13 @@
+#!/bin/bash
+# Copyright 2020. (주)웨어그램 all rights reserved.
+# 솔루션 일괄 빌드 스크립트.
+
+find . -type f -name "_b" -print0 |
+while IFS= read -r -d '' file; do
+    if [ "$file" != "./.script/_b" ]; then
+        echo
+        echo $file $@ "--------------------------------------------------------"
+        bash $file $@
+    fi
+done
+exit 0

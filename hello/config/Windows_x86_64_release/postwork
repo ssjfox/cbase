@@ -1,0 +1,11 @@
+#!/bin/bash
+# Copyright 2021. Waregram Corp. all rights reserved.
+
+
+# mv ./bin/Windows_x86_64_release/Debug/* ./bin/Windows_x86_64_release/.
+
+# rmdir ./bin/Windows_x86_64_release/Debug
+
+# cp /c/Qt/Qt5.12.12/5.12.12/msvc2017_64/bin/Qt5Widgets.dll ./bin/Windows_x86_64_release/.
+# cp /c/Qt/Qt5.12.12/5.12.12/msvc2017_64/bin/Qt5Core.dll ./bin/Windows_x86_64_release/.
+# cp /c/Qt/Qt5.12.12/5.12.12/msvc2017_64/bin/Qt5Gui.dll ./bin/Windows_x86_64_release/.

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+# # /ManifestFile:"x64\Debug\Dll1.dll.intermediate.manifest"
+# /OUT:"C:\Program Files\Python38\x64\Debug\Dll1.dll"
+# /PDB:"C:\Program Files\Python38\x64\Debug\Dll1.pdb"
+# /IMPLIB:"C:\Program Files\Python38\x64\Debug\Dll1.lib"
+# /PGD:"C:\Program Files\Python38\x64\Debug\Dll1.pgd"
+# /LTCGOUT:"x64\Debug\Dll1.iobj"
+
+/MANIFEST
+/NXCOMPAT
+# /DYNAMICBASE "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib"
+/DEBUG
+
+/MACHINE:X64
+/INCREMENTAL
+/SUBSYSTEM:CONSOLE
+/MANIFESTUAC:NO
+/ERRORREPORT:PROMPT
+/NOLOGO
+/TLBID:1
